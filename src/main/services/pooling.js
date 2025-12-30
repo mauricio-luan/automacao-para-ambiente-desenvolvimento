@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const pooling = async () => {
-  let limiteTentativas = 20
+  let limiteTentativas = 15
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
   try {
@@ -9,17 +9,12 @@ export const pooling = async () => {
       try {
         const response = await axios.get('http://localhost:6060/Client/response')
 
-        if (response.status === 200) {
-          return response.data
-        }
-        if (response.status === 202) {
-          console.log('Aguardando retorno Payer... (Status 202)')
-        }
+        if (response.status === 200) return response.data
+        if (response.status === 202) console.log('Aguardando retorno Payer... (Status 202)')
       } catch (innerError) {
         console.warn('Erro ou sem operação:', innerError.message)
       }
-
-      await sleep(3000)
+      await sleep(2000)
     }
 
     throw new Error('Timeout: Limite de tentativas excedido.')
