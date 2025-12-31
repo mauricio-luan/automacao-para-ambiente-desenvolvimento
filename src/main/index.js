@@ -5,6 +5,8 @@ import { registerIpcHandlers } from './ipc/ipcHandlers'
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 720,
     show: false,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),

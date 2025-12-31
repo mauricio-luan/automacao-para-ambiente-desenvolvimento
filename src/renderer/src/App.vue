@@ -1,24 +1,30 @@
 <template>
-  <ProductList :produtos="produtos"></ProductList>
+  <v-app>
+    <v-main>
+      <ProductList :produtos="produtos"></ProductList>
 
-  <Carrinho></Carrinho>
+      <Carrinho></Carrinho>
 
-  <Totals></Totals>
+      <Totals></Totals>
 
-  <Controls></Controls>
+      <Controls v-model:is-open="isOpen" @chama-venda="chamaVenda"></Controls>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
 import Carrinho from './components/Carrinho.vue'
+import Controls from './components/Controls.vue'
 import ProductList from './components/ProductList.vue'
 import Totals from './components/Totals.vue'
-import Controls from './components/Controls.vue'
+import { statusTransaction } from '../../shared/constants/payerFields'
 
 export default {
   components: { Carrinho, Controls, ProductList, Totals },
 
   data() {
     return {
+      isOpen: false,
       produtos: [
         {
           id: 1,
@@ -39,13 +45,22 @@ export default {
           id: 4,
           produto: 'Açúcar 2kg',
           valorUnitario: 6.8
-        },
-        {
-          id: 5,
-          produto: 'Café 500g',
-          valorUnitario: 15.9
         }
       ]
+    }
+  },
+
+  methods: {
+    async chamaVenda(payload) {
+      try {
+        const response = await window.api.pagamento(payload)
+        if (response === statusTransaction.APPROVED) {
+          this.$store.dispatch('limpaCarrinho')
+          this.isOpen = false
+        }
+      } catch (err) {
+        console.error('erro no chamaVenda: ', err)
+      }
     }
   }
 }

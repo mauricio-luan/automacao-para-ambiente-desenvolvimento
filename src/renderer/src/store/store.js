@@ -26,6 +26,10 @@ const store = createStore({
         if (produto.quantidade > 1) produto.quantidade--
         else this.commit('removerDoCarrinho', produto.id)
       }
+    },
+
+    limpaCarrinho(state) {
+      state.carrinho = []
     }
   },
 
@@ -40,6 +44,10 @@ const store = createStore({
 
     decrementaProduto(context, produtoId) {
       context.commit('decrementaProduto', produtoId)
+    },
+
+    limpaCarrinho(context) {
+      context.commit('limpaCarrinho')
     }
   },
 

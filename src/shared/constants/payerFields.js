@@ -59,3 +59,13 @@ export const PaymentMethodSubType = Object.freeze({
 export const service = Object.freeze({
   MOBILE_CREDIT: 'MOBILE_CREDIT'
 })
+
+export const statusTransaction = Object.freeze({
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  PENDING: 'PENDING',
+  CANCELLED: 'CANCELLED',
+  ABORTED: 'ABORTED',
+  DONE: 'DONE',
+  UNAUTHORIZED: 'UNAUTHORIZED'
+})

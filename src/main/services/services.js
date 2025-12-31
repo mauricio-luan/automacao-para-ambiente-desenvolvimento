@@ -1,12 +1,17 @@
 import axios from 'axios'
-import { Fields, CommandType } from '../constants/payerFields'
+import { Fields, CommandType, PaymentMethod } from '../../shared/constants/payerFields'
 import { pooling } from './pooling'
 
 const url = 'http://localhost:6060/Client/request'
 
 export const chamaVenda = async (payload) => {
   try {
-    const fullPayload = { [Fields.COMMAND]: CommandType.PAYMENT, [Fields.VALUE]: payload }
+    const fullPayload = {
+      [Fields.COMMAND]: CommandType.PAYMENT,
+      [Fields.PAYMENT_METHOD]: PaymentMethod.CARD,
+      [Fields.VALUE]: payload.value,
+      [Fields.PAYMENT_TYPE]: payload.paymentType
+    }
 
     await axios.post(url, fullPayload)
     const response = await pooling()
