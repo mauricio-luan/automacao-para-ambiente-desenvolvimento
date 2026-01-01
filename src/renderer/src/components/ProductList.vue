@@ -1,14 +1,30 @@
 <template>
-  <ul>
-    <li v-for="p in produtos" :key="p.id">
-      <div class="list-item">
-        <span>{{ p.id }}</span>
-        <span>{{ p.produto }}</span>
-        <span>{{ p.valorUnitario }}</span>
-        <button @click="$store.dispatch('adicionarAoCarrinho', p)">Adicionar</button>
-      </div>
-    </li>
-  </ul>
+  <v-table class="border-thin" height="250" striped="odd" fixed-header hover>
+    <thead>
+      <tr>
+        <th class="text-left">Id</th>
+        <th class="text-left">Produto</th>
+        <th class="text-left">UN</th>
+        <th class="text-left">Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="p in produtos" :key="p.id">
+        <td>{{ p.id }}</td>
+        <td>{{ p.produto }}</td>
+        <td>R$ {{ p.valorUnitario.toFixed(2) }}</td>
+        <td>
+          <v-btn
+            class="cursor-pointer"
+            color="primary"
+            density="compact"
+            icon="mdi-plus"
+            @click="$store.dispatch('adicionarAoCarrinho', p)"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </v-table>
 </template>
 
 <script>
@@ -18,21 +34,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-ul {
-  width: 300px;
-  height: 80px;
-  list-style: none;
-  background-color: aqua;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  overflow-x: auto;
-}
-
-.list-item {
-  display: flex;
-  justify-content: space-between;
-}
-</style>
