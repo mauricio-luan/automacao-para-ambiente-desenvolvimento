@@ -6,14 +6,19 @@
           <v-col cols="6">
             <h2>Lista de produtos</h2>
             <ProductList :produtos="produtos" />
-            <Log class="mt-8" />
+            <Log />
           </v-col>
 
           <v-col cols="6">
             <h2>Carrinho</h2>
             <Carrinho />
             <Totals />
-            <Controls v-model:is-open="isOpen" @chama-venda="chamaVenda"></Controls>
+
+            <v-row>
+              <v-col cols="12">
+                <Controls @handle-option="handleSubmitPayment"></Controls>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
 
@@ -36,14 +41,12 @@ import Log from './components/Log.vue'
 import ProductList from './components/ProductList.vue'
 import Rodape from './components/Rodape.vue'
 import Totals from './components/Totals.vue'
-import { statusTransaction } from '../../shared/constants/payerFields'
 
 export default {
   components: { Carrinho, Controls, Log, ProductList, Rodape, Totals },
 
   data() {
     return {
-      isOpen: false,
       produtos: [
         {
           id: 1,
@@ -77,26 +80,6 @@ export default {
         }
       ]
     }
-  },
-
-  methods: {
-    async chamaVenda(payload) {
-      try {
-        const response = await window.api.pagamento(payload)
-        if (response === statusTransaction.APPROVED) {
-          this.$store.dispatch('limpaCarrinho')
-        }
-      } catch (err) {
-        console.error('erro no chamaVenda: ', err)
-      } finally {
-        this.isOpen = false
-      }
-    }
   }
 }
 </script>
-
-<style>
-body {
-}
-</style>

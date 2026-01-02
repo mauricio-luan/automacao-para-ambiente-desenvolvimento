@@ -9,7 +9,7 @@ export const pooling = async () => {
       try {
         const response = await axios.get('http://localhost:6060/Client/response')
 
-        if (response.status === 200) return response.data
+        if (response.status === 200) return response
         if (response.status === 202) console.log('Aguardando retorno Payer... (Status 202)')
       } catch (innerError) {
         console.warn('Erro ou sem operação:', innerError.message)
@@ -20,6 +20,6 @@ export const pooling = async () => {
     throw new Error('Timeout: Limite de tentativas excedido.')
   } catch (error) {
     console.error('Falha no pooling:', error)
-    return false
+    throw error
   }
 }

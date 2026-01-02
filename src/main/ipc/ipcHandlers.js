@@ -1,8 +1,8 @@
 import { ipcMain } from 'electron'
-import { chamaVenda /*, outras */ } from '../services/services'
+import { createPayment /*, outras */ } from '../services/services'
 
 export const registerIpcHandlers = () => {
-  ipcMain.handle('chama-venda', async (_, payload) => {
-    return await chamaVenda(payload)
+  ipcMain.handle('payment:create-payment', async (_, payload) => {
+    return await createPayment(payload)
   })
 }

@@ -1,13 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
-const api = {
-  pagamento: async (payload) => await ipcRenderer.invoke('chama-venda', payload)
+const payment = {
+  create: async (payload) => await ipcRenderer.invoke('payment:create-payment', payload)
 }
 
-if (process.contextIsolated) {
-  try {
-    contextBridge.exposeInMainWorld('api', api)
-  } catch (error) {
-    console.error(error)
-  }
-}
+contextBridge.exposeInMainWorld('payment', payment)

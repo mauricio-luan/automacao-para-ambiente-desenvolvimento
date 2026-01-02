@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="bg-grey-darken-4 pa-2"
+    class="bg-grey-darken-4 pa-2 mt-8"
     height="200"
     style="overflow-y: auto; font-family: monospace"
   >

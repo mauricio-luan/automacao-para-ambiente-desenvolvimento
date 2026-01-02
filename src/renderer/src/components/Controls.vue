@@ -1,7 +1,8 @@
 <template>
-  <v-btn @click="handleIsOpen = true">Pagar</v-btn>
+  <v-btn @click="$store.dispatch('limpaCarrinho')">Limpar carrinho</v-btn>
+  <v-btn :disabled="carrinhoVazio" @click="isOpen = true">Pagar</v-btn>
 
-  <v-dialog v-model="handleIsOpen" max-width="400" height="400">
+  <v-dialog v-model="isOpen" max-width="400" height="400">
     <v-card class="align-center pa-5">
       <v-card-title class="w-100 text-center">Escolha o metodo:</v-card-title>
       <v-card-text class="w-75 d-flex justify-center flex-column ga-2">
@@ -9,32 +10,32 @@
           v-for="btn in botoes"
           :key="btn.label"
           variant="tonal"
-          @click="chamaVenda(btn.value)"
+          @click="handleSubmitPayment(btn.value)"
         >
           {{ btn.label }}
         </v-btn>
       </v-card-text>
 
       <v-card-actions>
-        <v-btn variant="text" color="error" @click="handleIsOpen = false">
-          <v-icon>mdi-close</v-icon>
-          Esc</v-btn
-        >
+        <v-btn variant="text" color="error" prepend-icon="mdi-close" @click="isOpen = false">
+          Esc
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import { PaymentMethod, PaymentType } from '../../../shared/constants/payerFields'
+import { mountPayloadPayment } from '../services/service'
+import { PaymentMethod, PaymentType } from '../../../shared/constants/Fields'
 
 export default {
-  props: { isOpen: Boolean },
-
-  emits: ['chama-venda', 'update:isOpen'],
+  emits: ['handle-option'],
 
   data() {
     return {
+      isOpen: false,
+      message: null,
       botoes: [
         {
           label: '1 - Debito',
@@ -57,24 +58,32 @@ export default {
   },
 
   computed: {
-    handleIsOpen: {
-      get() {
-        return this.isOpen
-      },
-      set(v) {
-        this.$emit('update:isOpen', v)
-      }
+    carrinhoVazio() {
+      return this.$store.getters.carrinhoEstaVazio
+    },
+
+    cartTotalValue() {
+      return this.$store.getters.valorTotalNoCarrinho
     }
   },
+
   methods: {
-    chamaVenda(paymentType) {
-      const valorTotalNoCarrinho = this.$store.getters.valorTotalNoCarrinho
-      const payload = {
-        paymentType: paymentType,
-        value: valorTotalNoCarrinho
+    async handleSubmitPayment(typeOrMethod) {
+      this.message = null
+
+      try {
+        if (this.carrinhoVazio) throw new Error('Carrinho vazio paizao')
+
+        const response = await mountPayloadPayment(typeOrMethod, this.cartTotalValue)
+        this.message = response //usar um snackbar pra dar retorno da transação
+      } catch (err) {
+        console.error(err)
+      } finally {
+        this.isOpen = false
       }
-      this.$emit('chama-venda', payload)
     }
+    //     if (response === statusTransaction.APPROVED) {
+    //       this.$store.dispatch('limpaCarrinho')
   }
 }
 </script>

@@ -69,6 +69,10 @@ const store = createStore({
         const total = soma + valorTotalPorProduto
         return total
       }, 0)
+    },
+
+    carrinhoEstaVazio(state) {
+      return state.carrinho.length === 0
     }
   }
 })
