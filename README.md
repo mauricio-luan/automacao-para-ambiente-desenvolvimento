@@ -1,6 +1,8 @@
 # electron-vue
 
-An Electron application with Vue
+Imagem previa de como está até o momento:
+
+<img src="assets/mvp.png" style="width: 800px">
 
 ## Recommended IDE Setup
 

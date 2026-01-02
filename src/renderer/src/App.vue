@@ -13,14 +13,15 @@
             <h2>Carrinho</h2>
             <Carrinho />
             <Totals />
-          </v-col>
-        </v-row>
-
-        <v-row class="mt-10">
-          <v-col cols="12">
             <Controls v-model:is-open="isOpen" @chama-venda="chamaVenda"></Controls>
           </v-col>
         </v-row>
+
+        <!-- <v-row class="mt-10">
+          <v-col cols="12">
+            <Controls v-model:is-open="isOpen" @chama-venda="chamaVenda"></Controls>
+          </v-col>
+        </v-row> -->
       </v-container>
     </v-main>
 
