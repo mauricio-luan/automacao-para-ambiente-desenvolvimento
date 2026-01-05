@@ -3,7 +3,7 @@
   <v-btn :disabled="carrinhoVazio" @click="isOpen = true">Pagar</v-btn>
 
   <v-dialog v-model="isOpen" max-width="400" height="400">
-    <v-card class="align-center pa-5">
+    <v-card v-if="!isLoading" class="align-center pa-5">
       <v-card-title class="w-100 text-center">Escolha o metodo:</v-card-title>
       <v-card-text class="w-75 d-flex justify-center flex-column ga-2">
         <v-btn
@@ -22,6 +22,10 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+
+    <v-card v-else class="align-center justify-center">
+      <v-progress-circular :size="70" :width="7" color="orange" indeterminate />
+    </v-card>
   </v-dialog>
 </template>
 
@@ -36,6 +40,7 @@ export default {
     return {
       isOpen: false,
       message: null,
+      isLoading: false,
       botoes: [
         {
           label: '1 - Debito',
@@ -69,21 +74,20 @@ export default {
 
   methods: {
     async handleSubmitPayment(typeOrMethod) {
-      this.message = null
+      this.isLoading = true
 
       try {
         if (this.carrinhoVazio) throw new Error('Carrinho vazio paizao')
 
-        const response = await mountPayloadPayment(typeOrMethod, this.cartTotalValue)
-        this.message = response //usar um snackbar pra dar retorno da transação
+        await mountPayloadPayment(typeOrMethod, this.cartTotalValue)
       } catch (err) {
         console.error(err)
       } finally {
         this.isOpen = false
+        this.isLoading = false
+        this.$store.dispatch('limpaCarrinho')
       }
     }
-    //     if (response === statusTransaction.APPROVED) {
-    //       this.$store.dispatch('limpaCarrinho')
   }
 }
 </script>

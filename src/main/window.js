@@ -9,6 +9,7 @@ export function createWindow() {
     // frame: false,
     resizable: false,
     show: false,
+    // fullscreen: true,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false

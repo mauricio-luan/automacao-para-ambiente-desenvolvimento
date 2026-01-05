@@ -11,7 +11,7 @@ export const createPayment = async (payload) => {
     // await saveTransaction(response)
 
     console.log(response.data)
-    return response
+    return response.data
   } catch (err) {
     if (err.response) {
       console.error(err.response.data.message)

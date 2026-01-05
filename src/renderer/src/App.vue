@@ -21,12 +21,6 @@
             </v-row>
           </v-col>
         </v-row>
-
-        <!-- <v-row class="mt-10">
-          <v-col cols="12">
-            <Controls v-model:is-open="isOpen" @chama-venda="chamaVenda"></Controls>
-          </v-col>
-        </v-row> -->
       </v-container>
     </v-main>
 
@@ -48,6 +42,11 @@ export default {
   data() {
     return {
       produtos: [
+        {
+          id: 0,
+          produto: 'teste',
+          valorUnitario: 0.01
+        },
         {
           id: 1,
           produto: 'Arroz 5kg',
@@ -77,6 +76,11 @@ export default {
           id: 6,
           produto: 'Leite UHT 1L',
           valorUnitario: 5.4
+        },
+        {
+          id: 7,
+          produto: 'Teste de 1 pila',
+          valorUnitario: 1
         }
       ]
     }

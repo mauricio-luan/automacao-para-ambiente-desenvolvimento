@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const pooling = async () => {
-  let limiteTentativas = 15
+  let limiteTentativas = 30
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
   try {
