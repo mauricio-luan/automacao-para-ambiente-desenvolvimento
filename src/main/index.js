@@ -3,8 +3,8 @@ import { createWindow } from './window'
 import { registerIpcHandlers } from './ipc/ipcHandlers'
 
 app.whenReady().then(() => {
-  createWindow()
   registerIpcHandlers()
+  createWindow()
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()

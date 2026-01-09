@@ -14,7 +14,7 @@ export const mountPayloadPayment = async (typeOrMethod, value) => {
       payload[Fields.PAYMENT_TYPE] = typeOrMethod
     }
 
-    const response = await window.payment.create(payload)
+    const response = await window.api.payment.create(payload)
 
     //this.$store.dispatch('salvar essa bagaça numa store?????', response)
 

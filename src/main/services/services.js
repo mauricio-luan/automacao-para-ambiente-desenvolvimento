@@ -1,16 +1,17 @@
 import axios from 'axios'
 import { pooling } from './pooling'
+import { logger } from '../log/logger'
 
 export const createPayment = async (payload) => {
   try {
     if (!payload || payload == undefined) throw new Error('Payload vazio.')
 
     await axios.post('http://localhost:6060/Client/request', payload)
+    logger.info('request: ', payload)
+
     const response = await pooling()
+    logger.info('response: ', response.data)
 
-    // await saveTransaction(response)
-
-    console.log(response.data)
     return response.data
   } catch (err) {
     if (err.response) {

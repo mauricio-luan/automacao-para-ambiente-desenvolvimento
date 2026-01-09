@@ -1,16 +1,17 @@
 import axios from 'axios'
+import { logger } from '../log/logger'
 
 export const pooling = async () => {
   let limiteTentativas = 30
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
   try {
+    logger.info('Aguardando response...')
+
     for (let tentativas = 0; tentativas < limiteTentativas; tentativas++) {
       try {
         const response = await axios.get('http://localhost:6060/Client/response')
-
         if (response.status === 200) return response
-        if (response.status === 202) console.log('Aguardando retorno Payer... (Status 202)')
       } catch (innerError) {
         console.warn('Erro ou sem operação:', innerError.message)
       }

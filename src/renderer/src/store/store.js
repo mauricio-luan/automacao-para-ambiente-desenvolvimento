@@ -2,7 +2,8 @@ import { createStore } from 'vuex'
 
 const store = createStore({
   state: {
-    carrinho: []
+    carrinho: [],
+    logs: []
   },
 
   mutations: {
@@ -30,6 +31,10 @@ const store = createStore({
 
     limpaCarrinho(state) {
       state.carrinho = []
+    },
+
+    adicionaAoLog(state, log) {
+      state.logs.push(log)
     }
   },
 
@@ -73,6 +78,10 @@ const store = createStore({
 
     carrinhoEstaVazio(state) {
       return state.carrinho.length === 0
+    },
+
+    logs(state) {
+      return state.logs
     }
   }
 })
