@@ -4,7 +4,7 @@ export const mountPayloadPayment = async (typeOrMethod, value) => {
   try {
     const payload = {
       [Fields.COMMAND]: CommandType.PAYMENT,
-      [Fields.VALUE]: value
+      [Fields.VALUE]: value.toFixed(2)
     }
 
     if (Object.values(PaymentMethod).includes(typeOrMethod)) {
@@ -14,9 +14,8 @@ export const mountPayloadPayment = async (typeOrMethod, value) => {
       payload[Fields.PAYMENT_TYPE] = typeOrMethod
     }
 
+    window.api.log.info(`payload: -> ${JSON.stringify(payload)}`)
     const response = await window.api.payment.create(payload)
-
-    //this.$store.dispatch('salvar essa bagaça numa store?????', response)
 
     return response
   } catch (err) {

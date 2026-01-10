@@ -2,19 +2,19 @@ import { contextBridge, ipcRenderer } from 'electron'
 
 const api = {
   payment: {
-    create: async (payload) => await ipcRenderer.invoke('payment:create-payment', payload)
+    create: async (payload) => await ipcRenderer.invoke('payment:create', payload)
   },
   log: {
-    info: (msg) => ipcRenderer.send('log', { level: 'info', message: msg }),
-    error: (msg) => ipcRenderer.send('log', { level: 'error', message: msg }),
-    warn: (msg) => ipcRenderer.send('log', { level: 'warn', message: msg }),
-    logAdded: (cb) => {
-      const subscription = (_event, payload) => {
-        console.log('🕵️ PRELOAD: Recebi do Main!', payload)
-        cb(payload)
-      }
-      ipcRenderer.on('log:added', subscription)
-      return () => ipcRenderer.removeListener('log:added', subscription)
+    // handlers
+    info: (msg) => ipcRenderer.send('log:write', { level: 'info', message: msg }),
+    error: (msg) => ipcRenderer.send('log:write', { level: 'error', message: msg }),
+    warn: (msg) => ipcRenderer.send('log:write', { level: 'warn', message: msg }),
+
+    // listeners
+    onLogAdded: (cb) => {
+      const log = (_event, payload) => cb(payload)
+      ipcRenderer.on('log:update', log)
+      return () => ipcRenderer.removeListener('log:update', log)
     }
   }
 }

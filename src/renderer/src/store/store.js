@@ -53,6 +53,7 @@ const store = createStore({
 
     limpaCarrinho(context) {
       context.commit('limpaCarrinho')
+      window.api.log.info('Carrinho foi limpo')
     }
   },
 
@@ -83,6 +84,7 @@ const store = createStore({
     logs(state) {
       return state.logs
     }
+    // { "timestamp": "2026-01-10T03:00:25.560Z", "level": "info", "message": "Carrinho foi limpo", "details": "{}" }
   }
 })
 

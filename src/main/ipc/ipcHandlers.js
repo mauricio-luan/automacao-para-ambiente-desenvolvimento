@@ -1,23 +1,18 @@
-import { ipcMain } from 'electron'
+import { BrowserWindow, ipcMain } from 'electron'
 import { createPayment } from '../services/services'
 import { logger } from '../log/logger'
 
-export const registerIpcHandlers = () => {
-  ipcMain.handle('payment:create-payment', async (_, payload) => {
+export function registerIpcHandlers() {
+  ipcMain.handle('payment:create', async (_, payload) => {
     return await createPayment(payload)
   })
 
-  ipcMain.on('log', (event, payload) => {
-    const { level, message, ...metadata } = payload
+  ipcMain.on('log:write', (_, { level, message }) => {
     logger.log({ level, message })
+  })
 
-    console.log('📡 MAIN: Tentando devolver pra tela...', message)
-
-    event.sender.send('log:added', {
-      timestamp: new Date().toISOString(),
-      level,
-      message,
-      details: metadata ? JSON.stringify(metadata) : ''
-    })
+  logger.on('data', (logData) => {
+    console.log(logData)
+    BrowserWindow.getFocusedWindow().webContents.send('log:update', logData)
   })
 }

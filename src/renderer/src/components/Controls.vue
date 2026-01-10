@@ -75,6 +75,7 @@ export default {
   methods: {
     async handleSubmitPayment(typeOrMethod) {
       this.isLoading = true
+      window.api.log.info('Chamou pagamento')
 
       try {
         if (this.carrinhoVazio) throw new Error('Carrinho vazio paizao')

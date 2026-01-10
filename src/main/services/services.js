@@ -7,10 +7,9 @@ export const createPayment = async (payload) => {
     if (!payload || payload == undefined) throw new Error('Payload vazio.')
 
     await axios.post('http://localhost:6060/Client/request', payload)
-    logger.info('request: ', payload)
 
     const response = await pooling()
-    logger.info('response: ', response.data)
+    logger.info('response -> ', response.data)
 
     return response.data
   } catch (err) {

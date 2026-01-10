@@ -2,10 +2,9 @@
   <v-table class="border-thin" height="250" striped="odd" fixed-header hover>
     <thead>
       <tr>
-        <th class="text-left">Id</th>
-        <th class="text-left">Produto</th>
-        <th class="text-left">UN</th>
-        <th class="text-left">Ação</th>
+        <th v-for="(field, index) in headers" :key="index" :class="field.class">
+          {{ field.text }}
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -31,6 +30,16 @@
 export default {
   props: {
     produtos: { type: Array, required: true }
+  },
+  data() {
+    return {
+      headers: [
+        { class: 'text-left', text: 'Id' },
+        { class: 'text-left', text: 'Produto' },
+        { class: 'text-left', text: 'UN' },
+        { class: 'text-left', text: 'Ação' }
+      ]
+    }
   }
 }
 </script>
