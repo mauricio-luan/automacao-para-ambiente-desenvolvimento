@@ -15,8 +15,11 @@
             <Totals />
 
             <v-row>
-              <v-col cols="12">
+              <v-col cols="8">
                 <Controls @handle-option="handleSubmitPayment"></Controls>
+              </v-col>
+              <v-col cols="4">
+                <SwitchIntegracao />
               </v-col>
             </v-row>
           </v-col>
@@ -35,9 +38,10 @@ import Log from './components/Log.vue'
 import ProductList from './components/ProductList.vue'
 import Rodape from './components/Rodape.vue'
 import Totals from './components/Totals.vue'
+import SwitchIntegracao from './components/SwitchIntegracao.vue'
 
 export default {
-  components: { Carrinho, Controls, Log, ProductList, Rodape, Totals },
+  components: { Carrinho, Controls, Log, ProductList, Rodape, Totals, SwitchIntegracao },
 
   data() {
     return {

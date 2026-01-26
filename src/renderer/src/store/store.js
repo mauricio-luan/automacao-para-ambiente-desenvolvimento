@@ -3,7 +3,8 @@ import { createStore } from 'vuex'
 const store = createStore({
   state: {
     carrinho: [],
-    logs: []
+    logs: [],
+    integrationMode: 'localhost'
   },
 
   mutations: {
@@ -35,6 +36,10 @@ const store = createStore({
 
     adicionaAoLog(state, log) {
       state.logs.push(log)
+    },
+
+    setIntegrationMode(state, mode) {
+      state.integrationMode = mode
     }
   },
 
@@ -83,8 +88,11 @@ const store = createStore({
 
     logs(state) {
       return state.logs
+    },
+
+    integrationMode(state) {
+      return state.integrationMode
     }
-    // { "timestamp": "2026-01-10T03:00:25.560Z", "level": "info", "message": "Carrinho foi limpo", "details": "{}" }
   }
 })
 

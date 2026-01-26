@@ -1,6 +1,6 @@
 import { Fields, CommandType, PaymentMethod } from '../../../shared/constants/Fields'
 
-export const mountPayloadPayment = async (typeOrMethod, value) => {
+export const mountPayloadPayment = async ({ typeOrMethod, value, integrationMode }) => {
   try {
     const payload = {
       [Fields.COMMAND]: CommandType.PAYMENT,
@@ -15,6 +15,8 @@ export const mountPayloadPayment = async (typeOrMethod, value) => {
     }
 
     window.api.log.info(`payload: -> ${JSON.stringify(payload)}`)
+    window.api.log.info(`integrationMode: -> ${integrationMode}`)
+
     const response = await window.api.payment.create(payload)
 
     return response

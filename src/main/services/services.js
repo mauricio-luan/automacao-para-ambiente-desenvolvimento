@@ -6,6 +6,9 @@ export const createPayment = async (payload) => {
   try {
     if (!payload || payload == undefined) throw new Error('Payload vazio.')
 
+    // const url =
+    //   integrationMode === 'localhost' ? 'http://localhost:6060/Client/request' : 'url de prod'
+
     await axios.post('http://localhost:6060/Client/request', payload)
 
     const response = await pooling()
