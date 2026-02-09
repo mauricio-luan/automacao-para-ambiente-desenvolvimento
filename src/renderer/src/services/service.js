@@ -1,6 +1,15 @@
 import { Fields, CommandType, PaymentMethod } from '../../../shared/constants/Fields'
+import store from '../store/store'
 
-export const mountPayloadPayment = async ({ typeOrMethod, value, integrationMode }) => {
+export function verifyIntegrationMode({ typeOrMethod, value, integrationMode }) {
+  if (store.state.integrationMode === 'localhost') {
+    return localhostPayment({ typeOrMethod, value, integrationMode })
+  } else {
+    return gatewayPayment({ typeOrMethod, value, integrationMode })
+  }
+}
+
+const localhostPayment = async ({ typeOrMethod, value, integrationMode }) => {
   try {
     const payload = {
       [Fields.COMMAND]: CommandType.PAYMENT,
